@@ -71,7 +71,8 @@ export function prepare (url, options = {}) {
  * @param {object=} headers - HTTP headers to send with the request.
  */
 export function createDefaultHeaders (headers = {}) {
-  return _assign({}, headers, {Accept: CONTENT_TYPE_APPLICATION_JSON})
+  const {Accept = CONTENT_TYPE_APPLICATION_JSON} = headers
+  return _assign({}, headers, {Accept})
 }
 
 /**

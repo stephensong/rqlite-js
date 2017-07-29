@@ -27,7 +27,7 @@ export const QUERY_MULTIPLE_SUCCESS_RESPONSE = {
 }
 
 /**
- * Creates a nock that represents a succesful call to data query endpoint.
+ * Creates a nock that represents a successful call to data query endpoint.
  */
 export function querySuccess (options) {
   const {url, path, auth, response = QUERY_SUCCESS_RESPONSE} = options

@@ -1,0 +1,21 @@
+import nock from 'nock'
+import {CONTENT_TYPE_TEXT_PLAIN} from '../../http/content-types'
+
+export const BACKUP_SUCCESS_RESPONSE = 'TEST BACKUP'
+
+/**
+ * Creates a nock that represents a successful call to data query endpoint.
+ */
+export function backupSuccess (options) {
+  const {url, path, auth, response = BACKUP_SUCCESS_RESPONSE} = options
+  const scope = nock(url)
+    .defaultReplyHeaders({
+      'Content-Type': CONTENT_TYPE_TEXT_PLAIN
+    })
+    .matchHeader('Accept', CONTENT_TYPE_TEXT_PLAIN)
+    .get(path)
+  if (auth) {
+    scope.basicAuth(auth)
+  }
+  return scope.reply(200, response)
+}

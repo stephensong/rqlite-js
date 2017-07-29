@@ -2,8 +2,8 @@ import _isString from 'lodash/isString'
 import _isFunction from 'lodash/isFunction'
 import _merge from 'lodash/merge'
 import _partial from 'lodash/partial'
-import queryDataApi from '../query'
-import executeDataApi from '../execute'
+import backupApi from '../backup'
+import restoreApi from '../restore'
 import {Promise as PromiseRsvp} from 'rsvp'
 
 /**
@@ -21,17 +21,9 @@ export default function connect (options = {}) {
       reject(new Error('The url option is required to connect to a data api.'))
       return
     }
-    const queryDataApiPartial = _partial(clientConnect, options, queryDataApi)
-    const executeDataApiPartial = _partial(clientConnect, options, executeDataApi)
     resolve({
-      select: queryDataApiPartial,
-      update: executeDataApiPartial,
-      insert: executeDataApiPartial,
-      delete: executeDataApiPartial,
-      table: {
-        create: executeDataApiPartial,
-        drop: executeDataApiPartial
-      }
+      backup: _partial(clientConnect, options, backupApi),
+      restore: _partial(clientConnect, options, restoreApi)
     })
   })
 }
@@ -43,7 +35,7 @@ export default function connect (options = {}) {
  * @param {string} path - The path this request i.e. /db/query.
  * @param {object} options - Options for this request that will me merged with connectOptions.
  */
-function clientConnect (connectOptions, clientMethod, sql, options = {}) {
+function clientConnect (connectOptions, clientMethod, file, options = {}) {
   const {url} = connectOptions
   if (!_isString(url)) {
     throw new Error('The url argument is required to be a string.')
@@ -52,5 +44,5 @@ function clientConnect (connectOptions, clientMethod, sql, options = {}) {
     throw new Error('The clientMethod argument is required to be a function.')
   }
   options = _merge({}, connectOptions, options)
-  return clientMethod(url, sql, options)
+  return clientMethod(url, file, options)
 }
