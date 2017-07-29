@@ -1,6 +1,7 @@
 import _isString from 'lodash/isString'
 import _isFunction from 'lodash/isFunction'
 import _merge from 'lodash/merge'
+import _omit from 'lodash/omit'
 import _partial from 'lodash/partial'
 import queryDataApi from '../query'
 import executeDataApi from '../execute'
@@ -40,7 +41,7 @@ export default function connect (options = {}) {
  * Wraps the client functions with connectOptions so defaults can be applied
  * @param {object} connectOptions - Options that were supplied to the connect function.
  * @param {function} clientMethod - The client method to be called.
- * @param {string} path - The path this request i.e. /db/query.
+ * @param {array}string} sql - String or array of string containing SQL queries.
  * @param {object} options - Options for this request that will me merged with connectOptions.
  */
 function clientConnect (connectOptions, clientMethod, sql, options = {}) {
@@ -51,6 +52,6 @@ function clientConnect (connectOptions, clientMethod, sql, options = {}) {
   if (!_isFunction(clientMethod)) {
     throw new Error('The clientMethod argument is required to be a function.')
   }
-  options = _merge({}, connectOptions, options)
+  options = _merge({}, _omit(connectOptions, ['url']), options)
   return clientMethod(url, sql, options)
 }

@@ -1,7 +1,12 @@
+import _join from 'lodash/join'
 import nock from 'nock'
 import {CONTENT_TYPE_TEXT_PLAIN} from '../../http/content-types'
 
-export const BACKUP_SUCCESS_RESPONSE = 'TEST BACKUP'
+export const BACKUP_SUCCESS_RESPONSE = _join([
+  'CREATE TABLE foo (id integer not null primary key, name text);',
+  'INSERT INTO foo(name) VALUES(\"fiona\");',
+  'INSERT INTO foo(name) VALUES(\"justin\");'
+], '')
 
 /**
  * Creates a nock that represents a successful call to data query endpoint.

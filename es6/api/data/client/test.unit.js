@@ -12,7 +12,7 @@ const URL = 'http://www.rqlite.com:4001'
 
 describe('api data client', function () {
   beforeEach(nock.cleanAll)
-  describe('Function: api.connect()', function () {
+  describe('Function: connect()', function () {
     it(`should call the ${URL}${PATH_EXECUTE} endpoint with a request body using HTTP POST when performing an insert`, function (done) {
       connect(URL)
         .then(function (api) {

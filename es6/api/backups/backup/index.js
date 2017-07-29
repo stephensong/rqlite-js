@@ -9,7 +9,7 @@ export const PATH = '/db/backup'
  * @param {string} url - The full url for the request i.e. http://localhost:4001
  * @param {object=} options - HTTP client options.
  */
-export default function (url, file, options = {}) {
+export default function (url, options = {}) {
   let {httpOptions = {}} = options
   let {headers = {}} = httpOptions
   headers = _assign({}, headers, {
